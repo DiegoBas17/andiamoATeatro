@@ -13,6 +13,9 @@ public class Sala {
         this.sede_id = sede_id;
     }
 
+    public Sala() {
+    }
+
     public int getId() {
         return id;
     }

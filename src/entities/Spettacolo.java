@@ -19,6 +19,9 @@ public class Spettacolo {
         this.sala_id = sala_id;
     }
 
+    public Spettacolo() {
+    }
+
     public int getId() {
         return id;
     }

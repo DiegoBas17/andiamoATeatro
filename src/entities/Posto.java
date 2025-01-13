@@ -13,6 +13,9 @@ public class Posto {
         this.sala_id = sala_id;
     }
 
+    public Posto() {
+    }
+
     public int getId() {
         return id;
     }

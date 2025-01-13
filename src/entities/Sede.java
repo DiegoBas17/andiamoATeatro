@@ -17,6 +17,9 @@ public class Sede {
         this.isCoperto = isCoperto;
     }
 
+    public Sede() {
+    }
+
     public TipoSede getTipoSede() {
         return tipoSede;
     }

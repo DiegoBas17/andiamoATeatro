@@ -17,6 +17,9 @@ public class Prenotazione {
         this.posto_id = posto_id;
     }
 
+    public Prenotazione() {
+    }
+
     public int getId() {
         return id;
     }
