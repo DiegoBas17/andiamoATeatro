@@ -16,7 +16,7 @@ public class SedeRepository {
         connection = DBConnection.getConnection();
     }
 
-    private static Sede mapResultSetToSede(ResultSet resultSet) throws SQLException {
+    public static Sede mapResultSetToSede(ResultSet resultSet) throws SQLException {
         Sede sede = new Sede();
 
         sede.setId(resultSet.getInt("id"));
@@ -28,7 +28,7 @@ public class SedeRepository {
     }
 
 
-    private static Sede getById(int id) throws SQLException {
+    public static Sede getById(int id) throws SQLException {
         String query = "SELECT * FROM sede WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -40,7 +40,7 @@ public class SedeRepository {
             throw new IllegalArgumentException("Sede con id " + id + " non presente");
     }
 
-    private static List<Sede> findAll() throws SQLException {
+    public static List<Sede> findAll() throws SQLException {
         String query = "SELECT * FROM sede";
 
         Statement statement = connection.createStatement();
@@ -52,7 +52,34 @@ public class SedeRepository {
         return sedi;
     }
 
-    private static void insertSede(SedeRequest request) {
+    public static void insertSede(SedeRequest request) throws SQLException {
+        String query = "INSERT INTO sede (indirizzo, nomeSpettacolo, comune, isCoperto)" +
+                "VALUES (?,?,?,?,?)";
 
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, request.indirizzo());
+        statement.setString(2, request.nomeSpettacolo());
+        statement.setString(3, request.comune());
+        statement.setBoolean(4, request.isCoperto());
     }
+
+    public static void updateSede(int id, SedeRequest request) throws SQLException {
+        String query = "UPDATE sede SET indirizzo = ?, nomeSpettacolo = ?, comune = ?, isCoperto = ? WHERE id = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, request.indirizzo());
+        statement.setString(2, request.nomeSpettacolo());
+        statement.setString(3, request.comune());
+        statement.setBoolean(4, request.isCoperto());
+        statement.executeQuery();
+    }
+
+    public static void deleteById(int id) throws SQLException {
+        String query = "DELETE FROM sede WHERE id = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        statement.executeQuery();
+    }
+
 }
