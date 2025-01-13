@@ -24,4 +24,44 @@ public class Validator {
         }
         return toValidate;
     }
+
+    public static Double requirePositive(Double n) {
+        if (n == null) {
+            throw new NullPointerException("L'input è null");
+        }
+        if (n < 0) {
+            throw new IllegalArgumentException("L'input deve essere positivo!");
+        }
+        return n;
+    }
+
+    public static Integer requireGreaterThenZero(Integer n) {
+        if (n == null) {
+            throw new NullPointerException("L'input è null");
+        }
+        if (n <= 0) {
+            throw new IllegalArgumentException("L'input deve essere positivo!");
+        }
+        return n;
+    }
+
+    public static Double requireGreaterThenZero(Double n) {
+        if (n == null) {
+            throw new NullPointerException("L'input è null");
+        }
+        if (n <= 0) {
+            throw new IllegalArgumentException("L'input deve essere positivo!");
+        }
+        return n;
+    }
+
+    public static Integer requireBetween(Integer a) {
+        if (a == null) {
+            throw new NullPointerException("L'input è null");
+        }
+        if (a < 1 || a > 4) {
+            throw new IllegalArgumentException("Puoi prendere massimo 4 posti e almeno 1");
+        }
+        return a;
+    }
 }
