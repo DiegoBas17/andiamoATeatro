@@ -75,5 +75,12 @@ public class Validator {
     }
 
     public static Date requireDateBefore(Date orario, Date from) {
+        if (orario == null || from == null) {
+            throw new NullPointerException("L'input è null");
+        }
+        if (orario.after(from)) {
+            throw new IllegalArgumentException("Strappa sto calendario va");
+        }
+        return orario;
     }
 }
