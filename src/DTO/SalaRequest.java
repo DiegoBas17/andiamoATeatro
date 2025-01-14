@@ -10,6 +10,6 @@ public record SalaRequest(
     public SalaRequest(int numeroPosti, String nome, int sede_id) {
         this.numeroPosti = Validator.requirePositiveInt(numeroPosti);
         this.nome = Validator.requireNotBlank(nome);
-        this.sede_id = Validator.requirePositiveInt(sede_id);
+        this.sede_id = (int) Validator.requireNotNull(sede_id);
     }
 }

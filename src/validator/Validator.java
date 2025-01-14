@@ -1,5 +1,7 @@
 package validator;
 
+import java.util.Date;
+
 public class Validator {
     public static Object requireNotNull(Object o) {
         if (o == null) {
@@ -70,5 +72,8 @@ public class Validator {
             throw new IllegalArgumentException("Puoi prendere massimo 4 posti e almeno 1");
         }
         return a;
+    }
+
+    public static Date requireDateBefore(Date orario, Date from) {
     }
 }
