@@ -1,5 +1,7 @@
 package validator;
 
+import java.util.Date;
+
 public class Validator {
     public static Object requireNotNull(Object o) {
         if (o == null) {
@@ -35,6 +37,13 @@ public class Validator {
         return n;
     }
 
+    public static int requirePositiveInt(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("L'input deve essere positivo!");
+        }
+        return n;
+    }
+
     public static Integer requireGreaterThenZero(Integer n) {
         if (n == null) {
             throw new NullPointerException("L'input è null");
@@ -63,5 +72,15 @@ public class Validator {
             throw new IllegalArgumentException("Puoi prendere massimo 4 posti e almeno 1");
         }
         return a;
+    }
+
+    public static Date requireDateBefore(Date orario, Date from) {
+        if (orario == null || from == null) {
+            throw new NullPointerException("L'input è null");
+        }
+        if (orario.after(from)) {
+            throw new IllegalArgumentException("Strappa sto calendario va");
+        }
+        return orario;
     }
 }

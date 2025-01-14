@@ -1,35 +1,37 @@
 package repository;
 
-import DTO.UtenteRequest;
+import DTO.SalaRequest;
 import configuration.DBConnection;
 import entities.Sala;
-import entities.Utente;
-
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalaRepository
-{
+public class SalaRepository {
+
     private static final Connection connection;
 
     static {
         connection = DBConnection.getConnection();
     }
 
-    private static Sala mapResultSetToSala(ResultSet resultSet) throws SQLException {
+    private static Sala mapResultSetToSala(ResultSet resultSet) {
         Sala sala = new Sala();
+        try {
+            sala.setId(resultSet.getInt("id"));
+            sala.setNome(resultSet.getString("nome"));
+            sala.setNumeroPosti(resultSet.getInt("numeroPosti"));
+            sala.setSede_id(resultSet.getInt("sede_id"));
+            return sala;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
-        sala.setId(resultSet.getInt("id"));
-        sala.setNumeroPosti(resultSet.getInt("NumeroPosti"));
-        sala.setNome(resultSet.getString("nome"));
-        sala.setSede_id(resultSet.getInt("sede_id"));
-        return sala;
     }
 
-    private static Sala getById(int id) throws SQLException {
-        String query = "SELECT * FROM sede WHERE id = ?";
+    public static Sala getById(int id) throws SQLException {
+        String query = "SELECT * FROM sala WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
@@ -40,8 +42,7 @@ public class SalaRepository
             throw new IllegalArgumentException("Sala con id " + id + " non presente");
     }
 
-    public static List<Sala> getAllSala() throws SQLException
-    {
+    public static List<Sala> getAllSala() throws SQLException {
         String query = "SELECT * FROM sala";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
@@ -53,35 +54,31 @@ public class SalaRepository
     }
 
     public static void insertSala(SalaRequest request) throws SQLException {
-        String query = "INSERT INTO utente (nome,cognome,indirizzo,email,cellulare)" +
+        String query = "INSERT INTO sala (nome,numeroPosti,sede_id)" +
                 "VALUES (?,?,?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.nome());
-        statement.setString(2, request.cognome());
-        statement.setString(3, request.indirizzo());
-        statement.setString(4, request.email());
-        statement.setString(5, request.cellulare());
+        statement.setInt(2, request.numeroPosti());
+        statement.setInt(3, request.sede_id());
+
     }
 
 
-    public static void updateUtenti(int id, UtenteRequest request) throws SQLException {
-        String query = "UPDATE utente SET nome = ?, cognome = ?, indirizzo = ?, email = ?, cellulare = ? WHERE id = ?";
+    public static void updateSala(int id, SalaRequest request) throws SQLException {
+        String query = "UPDATE sala SET nome = ?, cognome = ?, indirizzo = ?, email = ?, cellulare = ? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.nome());
-        statement.setString(2, request.cognome());
-        statement.setString(3, request.indirizzo());
-        statement.setString(4, request.email());
-        statement.setString(5, request.cellulare());
+        statement.setInt(2, request.numeroPosti());
+        statement.setInt(3, request.sede_id());
         statement.executeQuery();
     }
 
     public static void deleteById(int id) throws SQLException {
-        String query = "DELETE FROM utente WHERE id =?";
+        String query = "DELETE FROM sala WHERE id =?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         statement.executeQuery();
     }
-
 }

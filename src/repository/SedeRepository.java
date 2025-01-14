@@ -1,7 +1,6 @@
 package repository;
 
 import DTO.SedeRequest;
-import DTO.UtenteRequest;
 import configuration.DBConnection;
 import entities.Sede;
 
@@ -17,7 +16,7 @@ public class SedeRepository {
         connection = DBConnection.getConnection();
     }
 
-    private static Sede mapResultSetToSede(ResultSet resultSet) throws SQLException {
+    public static Sede mapResultSetToSede(ResultSet resultSet) throws SQLException {
         Sede sede = new Sede();
 
         sede.setId(resultSet.getInt("id"));
@@ -29,7 +28,7 @@ public class SedeRepository {
     }
 
 
-    private static Sede getById(int id) throws SQLException {
+    public static Sede getById(int id) throws SQLException {
         String query = "SELECT * FROM sede WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -41,7 +40,7 @@ public class SedeRepository {
             throw new IllegalArgumentException("Sede con id " + id + " non presente");
     }
 
-    private static List<Sede> findAll() throws SQLException {
+    public static List<Sede> findAll() throws SQLException {
         String query = "SELECT * FROM sede";
 
         Statement statement = connection.createStatement();

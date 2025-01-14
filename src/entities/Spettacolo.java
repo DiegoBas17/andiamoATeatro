@@ -7,10 +7,10 @@ public class Spettacolo {
     private Date orario;
     private double prezzo;
     private int durataInMinuti;
-    private Genere genere;
+    private String genere;
     private int sala_id;
 
-    public Spettacolo(int id, Date orario, double prezzo, int durataInMinuti, Genere genere, int sala_id) {
+    public Spettacolo(int id, Date orario, double prezzo, int durataInMinuti, String genere, int sala_id) {
         this.id = id;
         this.orario = orario;
         this.prezzo = prezzo;
@@ -54,11 +54,11 @@ public class Spettacolo {
         this.durataInMinuti = durataInMinuti;
     }
 
-    public Genere getGenere() {
+    public String getGenere() {
         return genere;
     }
 
-    public void setGenere(Genere genere) {
+    public void setGenere(String genere) {
         this.genere = genere;
     }
 
