@@ -35,6 +35,13 @@ public class Validator {
         return n;
     }
 
+    public static int requirePositiveInt(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("L'input deve essere positivo!");
+        }
+        return n;
+    }
+
     public static Integer requireGreaterThenZero(Integer n) {
         if (n == null) {
             throw new NullPointerException("L'input è null");
