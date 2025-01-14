@@ -40,7 +40,7 @@ public class PostoRepository {
     }
 
     }
-    public static List<Posto> getAllSala() throws SQLException {
+    public static List<Posto> getAllPosto() throws SQLException {
         String query = "SELECT * FROM posto";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
@@ -62,7 +62,7 @@ public class PostoRepository {
 
     }
 
-    public static void updateSala(int id, PostoRequest request) throws SQLException {
+    public static void updatePosto(int id, PostoRequest request) throws SQLException {
         String query = "UPDATE posto SET fila = ?, numeroPosto = ? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
