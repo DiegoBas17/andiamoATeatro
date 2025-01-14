@@ -2,60 +2,57 @@ package repository;
 
 import DTO.UtenteRequest;
 import configuration.DBConnection;
+import entities.Sala;
 import entities.Utente;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UtenteRepository {
-
+public class SalaRepository
+{
     private static final Connection connection;
 
     static {
         connection = DBConnection.getConnection();
     }
 
-    private static Utente mapResultSetToUtente(ResultSet resultSet) {
-        Utente utente = new Utente();
-        try {
-            utente.setId(resultSet.getInt("id"));
-            utente.setNome(resultSet.getString("nome"));
-            utente.setCognome(resultSet.getString("cognome"));
-            utente.setEmail(resultSet.getString("email"));
-            utente.setIndirizzo(resultSet.getString("indirizzo"));
-            utente.setCellulare(resultSet.getString("cellulare"));
-            return utente;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    private static Sala mapResultSetToSala(ResultSet resultSet) throws SQLException {
+        Sala sala = new Sala();
 
+        sala.setId(resultSet.getInt("id"));
+        sala.setNumeroPosti(resultSet.getInt("NumeroPosti"));
+        sala.setNome(resultSet.getString("nome"));
+        sala.setSede_id(resultSet.getInt("sede_id"));
+        return sala;
     }
 
-    public static Utente getById(int id) throws SQLException {
-        String query = "SELECT * FROM utente WHERE id = ?";
+    private static Sala getById(int id) throws SQLException {
+        String query = "SELECT * FROM sede WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
-            return mapResultSetToUtente(resultSet);
+            return mapResultSetToSala(resultSet);
         } else
-            throw new IllegalArgumentException("Utente con id " + id + " non presente");
+            throw new IllegalArgumentException("Sala con id " + id + " non presente");
     }
 
-    public static List<Utente> getAllUtenti() throws SQLException {
-        String query = "SELECT * FROM utente";
+    public static List<Sala> getAllSala() throws SQLException
+    {
+        String query = "SELECT * FROM sala";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
-        List<Utente> utenti = new ArrayList<>();
+        List<Sala> sala = new ArrayList<>();
         while (resultSet.next()) {
-            utenti.add(mapResultSetToUtente(resultSet));
+            sala.add(mapResultSetToSala(resultSet));
         }
-        return utenti;
+        return sala;
     }
 
-    public static void insertUtenti(UtenteRequest request) throws SQLException {
+    public static void insertSala(SalaRequest request) throws SQLException {
         String query = "INSERT INTO utente (nome,cognome,indirizzo,email,cellulare)" +
                 "VALUES (?,?,?,?,?)";
 
@@ -86,7 +83,5 @@ public class UtenteRepository {
         statement.setInt(1, id);
         statement.executeQuery();
     }
-
-
 
 }

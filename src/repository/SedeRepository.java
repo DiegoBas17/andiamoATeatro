@@ -1,6 +1,7 @@
 package repository;
 
 import DTO.SedeRequest;
+import DTO.UtenteRequest;
 import configuration.DBConnection;
 import entities.Sede;
 
@@ -52,7 +53,34 @@ public class SedeRepository {
         return sedi;
     }
 
-    private static void insertSede(SedeRequest request) {
-//CIAO
+    private static void insertSede(SedeRequest request) throws SQLException {
+        String query = "INSERT INTO SEDE (id,comune,indirizzo,nomeSpettacolo,isCoperto)" +
+                "VALUES (?,?,?,?,?)";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, request.id());
+        statement.setString(2, request.comune());
+        statement.setString(3, request.indirizzo());
+        statement.setString(4, request.nomeSpettacolo());
+        statement.setBoolean(5, request.isCoperto());
+    }
+
+    public static void updateSede(int id, SedeRequest request) throws SQLException {
+        String query = "UPDATE sede SET  comune = ?, indirizzo = ?, nomeSpettacolo = ?, isCoperto = ? WHERE id = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, request.comune());
+        statement.setString(2, request.indirizzo());
+        statement.setString(3, request.nomeSpettacolo());
+        statement.setBoolean(4, request.isCoperto());
+        statement.setInt(5, request.id());
+        statement.executeQuery();
+    }
+
+    public static void deleteById(int id) throws SQLException {
+        String query = "DELETE FROM sede WHERE id =?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        statement.executeQuery();
     }
 }
