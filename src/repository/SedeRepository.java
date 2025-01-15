@@ -58,7 +58,7 @@ public class SedeRepository {
         return sedi;
     }
 
-    private static void insertSede(SedeRequest request) throws SQLException {
+    public static void insertSede(SedeRequest request) throws SQLException {
         String query = "INSERT INTO SEDE (id,comune,indirizzo,nomeSpettacolo,isCoperto)" +
                 "VALUES (?,?,?,?,?)";
 
