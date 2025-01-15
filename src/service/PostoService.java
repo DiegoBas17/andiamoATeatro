@@ -9,23 +9,23 @@ import java.util.List;
 
 public class PostoService {
 
-    public Posto getSalaById(int id) throws SQLException {
+    public Posto getPostoById(int id) throws SQLException {
         return PostoRepository.getById(id);
     }
 
-    public List<Posto> getAllSale() throws SQLException {
+    public List<Posto> getAllPosto() throws SQLException {
         return PostoRepository.getAllPosto();
     }
 
-    public void insertSala(PostoRequest request) throws SQLException {
+    public void insertPosto(PostoRequest request) throws SQLException {
         PostoRepository.insertPosto(request);
     }
 
-    public void updateSala(int id, PostoRequest request) throws SQLException {
+    public void updatePosto(int id, PostoRequest request) throws SQLException {
         PostoRepository.updatePosto(id, request);
     }
 
-    public void deleteSalaById(int id) throws SQLException {
+    public void deletePostoById(int id) throws SQLException {
         PostoRepository.deleteById(id);
     }
 }

@@ -2,19 +2,17 @@ package DTO;
 
 import validator.Validator;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public record SpettacoloRequest(
-        Date orario,
+        LocalDateTime orario,
         double prezzo,
         int durataInMinuti,
         String genere,
         int sala_id
 ) {
-    public SpettacoloRequest(Date orario, double prezzo, int durataInMinuti, String genere, int sala_id) {
-        this.orario = Validator.requireDateBefore(orario, Date.from(Instant.from(LocalDate.now())));
+    public SpettacoloRequest(LocalDateTime orario, double prezzo, int durataInMinuti, String genere, int sala_id) {
+        this.orario = Validator.requireDateBefore(orario, LocalDateTime.now());
         this.prezzo = Validator.requirePositive(prezzo);
         this.durataInMinuti = Validator.requirePositiveInt(durataInMinuti);
         this.genere = Validator.requireNotBlank(genere);

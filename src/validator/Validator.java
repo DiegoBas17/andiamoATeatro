@@ -1,5 +1,7 @@
 package validator;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Validator {
@@ -74,11 +76,13 @@ public class Validator {
         return a;
     }
 
-    public static Date requireDateBefore(Date orario, Date from) {
+    public static LocalDateTime requireDateBefore(LocalDateTime orario, LocalDateTime from) {
         if (orario == null || from == null) {
             throw new NullPointerException("L'input è null");
         }
-        if (orario.after(from)) {
+        Date temporalOrario = Date.from(Instant.from(orario));
+        Date temporalOrarioFrom = Date.from(Instant.from(from));
+        if (temporalOrario.after(temporalOrarioFrom)) {
             throw new IllegalArgumentException("Strappa sto calendario va");
         }
         return orario;
