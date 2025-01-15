@@ -58,7 +58,7 @@ public class SalaRepository {
     }
 
     public static void insertSala(SalaRequest request) throws SQLException {
-        String query = "INSERT INTO sala (nome,numeroPosti,sede_id)" +
+        String query = "INSERT INTO sala (nome,numero_posti,sede_id)" +
                 "VALUES (?,?,?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -70,7 +70,7 @@ public class SalaRepository {
 
 
     public static void updateSala(int id, SalaRequest request) throws SQLException {
-        String query = "UPDATE sala SET nome = ?, cognome = ?, indirizzo = ?, email = ?, cellulare = ? WHERE id = ?";
+        String query = "UPDATE sala SET nome = ?, numero_posti = ?, sede_id = ? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.nome());

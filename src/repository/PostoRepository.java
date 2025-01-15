@@ -57,7 +57,7 @@ public class PostoRepository {
     }
 
     public static void insertPosto(PostoRequest request) throws SQLException {
-        String query = "INSERT INTO posto (fila,numeroPosto,sala_id)" +
+        String query = "INSERT INTO posto (fila,numero_posto,sala_id)" +
                 "VALUES (?,?,?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -68,7 +68,7 @@ public class PostoRepository {
     }
 
     public static void updatePosto(int id, PostoRequest request) throws SQLException {
-        String query = "UPDATE posto SET fila = ?, numeroPosto = ? WHERE id = ?";
+        String query = "UPDATE posto SET fila = ?, numero_posto = ? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.fila());

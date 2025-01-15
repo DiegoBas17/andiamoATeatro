@@ -62,7 +62,7 @@ public class SpettacoloRepository {
     }
 
     public static void insertSpettacolo(SpettacoloRequest request) throws SQLException {
-        String query = "INSERT INTO spettacolo (orario,prezzo,durataInMinuti,genere,sala_id)" +
+        String query = "INSERT INTO spettacolo (orario,prezzo,durata_in_minuti,genere,sala_id)" +
                 "VALUES (?,?,?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
