@@ -27,7 +27,7 @@ public class SalaRepository {
         try {
             sala.setId(resultSet.getInt("id"));
             sala.setNome(resultSet.getString("nome"));
-            sala.setNumeroPosti(resultSet.getInt("numeroPosti"));
+            sala.setNumeroPosti(resultSet.getInt("numero_posti"));
             sala.setSede_id(resultSet.getInt("sede_id"));
             return sala;
         } catch (SQLException e) {

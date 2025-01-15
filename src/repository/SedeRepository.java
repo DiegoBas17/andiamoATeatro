@@ -28,8 +28,8 @@ public class SedeRepository {
         sede.setId(resultSet.getInt("id"));
         sede.setComune(resultSet.getString("comune"));
         sede.setIndirizzo(resultSet.getString("indirizzo"));
-        sede.setNomeSpettacolo(resultSet.getString("nomeSpettacolo"));
-        sede.setCoperto(resultSet.getBoolean("isCoperto"));
+        sede.setNomeSpettacolo(resultSet.getString("nome_spettacolo"));
+        sede.setCoperto(resultSet.getBoolean("is_coperto"));
         return sede;
     }
 

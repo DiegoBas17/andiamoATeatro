@@ -28,7 +28,7 @@ public class SpettacoloRepository {
             spettacolo.setId(resultSet.getInt("id"));
             spettacolo.setOrario(LocalDateTime.from((TemporalAccessor) resultSet.getDate("orario")));
             spettacolo.setPrezzo(resultSet.getDouble("prezzo"));
-            spettacolo.setDurataInMinuti(resultSet.getInt("durataInMinuti"));
+            spettacolo.setDurataInMinuti(resultSet.getInt("durata_in_minuti"));
             spettacolo.setGenere(resultSet.getString("genere"));
             spettacolo.setSala_id(resultSet.getInt("sala_id"));
             return spettacolo;
