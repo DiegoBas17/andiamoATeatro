@@ -1,8 +1,8 @@
 package repository;
 
 
+import DBConfig.DBConnection;
 import DTO.SpettacoloRequest;
-import configuration.DBConnection;
 import entities.Spettacolo;
 
 import java.sql.*;
@@ -15,7 +15,11 @@ public class SpettacoloRepository {
     private static final Connection connection;
 
     static {
-        connection = DBConnection.getConnection();
+        try {
+            connection = DBConnection.getConnection();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Spettacolo mapResultSetToSpettacolo(ResultSet resultSet) {
