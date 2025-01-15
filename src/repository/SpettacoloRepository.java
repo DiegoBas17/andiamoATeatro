@@ -116,7 +116,7 @@ public class SpettacoloRepository {
         }
 
         return false;  // Se l'utente ha già acquistato 4 biglietti o più
-    }
+    } // n
 
     // Verifica se un utente ha già acquistato un biglietto per lo stesso spettacolo nello stesso giorno
     public static boolean Bigliettoaquistato(int utenteId, int spettacoloId) throws SQLException {
