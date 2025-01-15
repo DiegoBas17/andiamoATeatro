@@ -1,7 +1,7 @@
 package repository;
 
+import DBConfig.DBConnection;
 import DTO.SedeRequest;
-import configuration.DBConnection;
 import entities.Sede;
 
 import java.sql.*;
@@ -13,7 +13,13 @@ public class SedeRepository {
     private static final Connection connection;
 
     static {
-        connection = DBConnection.getConnection();
+        try {
+            connection = DBConnection.getConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Sede mapResultSetToSede(ResultSet resultSet) throws SQLException {

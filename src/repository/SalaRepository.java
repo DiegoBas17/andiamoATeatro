@@ -1,7 +1,7 @@
 package repository;
 
+import DBConfig.DBConnection;
 import DTO.SalaRequest;
-import configuration.DBConnection;
 import entities.Sala;
 
 import java.sql.*;
@@ -13,7 +13,13 @@ public class SalaRepository {
     private static final Connection connection;
 
     static {
-        connection = DBConnection.getConnection();
+        try {
+            connection = DBConnection.getConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Sala mapResultSetToSala(ResultSet resultSet) {

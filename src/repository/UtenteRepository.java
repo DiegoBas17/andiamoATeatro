@@ -1,7 +1,7 @@
 package repository;
 
+import DBConfig.DBConnection;
 import DTO.UtenteRequest;
-import configuration.DBConnection;
 import entities.Utente;
 
 import java.sql.*;
@@ -13,7 +13,13 @@ public class UtenteRepository {
     private static final Connection connection;
 
     static {
-        connection = DBConnection.getConnection();
+        try {
+            connection = DBConnection.getConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Utente mapResultSetToUtente(ResultSet resultSet) {
@@ -86,7 +92,6 @@ public class UtenteRepository {
         statement.setInt(1, id);
         statement.executeQuery();
     }
-
 
 
 }

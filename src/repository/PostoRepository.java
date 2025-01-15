@@ -1,7 +1,7 @@
 package repository;
 
+import DBConfig.DBConnection;
 import DTO.PostoRequest;
-import configuration.DBConnection;
 import entities.Posto;
 
 import java.sql.*;
@@ -12,7 +12,13 @@ public class PostoRepository {
     private static final Connection connection;
 
     static {
-        connection = DBConnection.getConnection();
+        try {
+            connection = DBConnection.getConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Posto mapResultSetToPosto(ResultSet resultSet) {
@@ -28,18 +34,19 @@ public class PostoRepository {
         }
     }
 
-    public static Posto getById (int id) throws SQLException {
+    public static Posto getById(int id) throws SQLException {
         String query = "SELECT * FROM posto WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
-    if (resultSet.next()) {
+        if (resultSet.next()) {
             return mapResultSetToPosto(resultSet);
         } else {
-            throw  new IllegalArgumentException("Posto con id " + id + " non presente.");
-    }
+            throw new IllegalArgumentException("Posto con id " + id + " non presente.");
+        }
 
     }
+
     public static List<Posto> getAllPosto() throws SQLException {
         String query = "SELECT * FROM posto";
         Statement statement = connection.createStatement();
