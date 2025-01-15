@@ -1,16 +1,16 @@
 package entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Spettacolo {
     private int id;
-    private Date orario;
+    private LocalDateTime orario;
     private double prezzo;
     private int durataInMinuti;
     private String genere;
     private int sala_id;
 
-    public Spettacolo(int id, Date orario, double prezzo, int durataInMinuti, String genere, int sala_id) {
+    public Spettacolo(int id, LocalDateTime orario, double prezzo, int durataInMinuti, String genere, int sala_id) {
         this.id = id;
         this.orario = orario;
         this.prezzo = prezzo;
@@ -30,11 +30,11 @@ public class Spettacolo {
         this.id = id;
     }
 
-    public Date getOrario() {
+    public LocalDateTime getOrario() {
         return orario;
     }
 
-    public void setOrario(Date orario) {
+    public void setOrario(LocalDateTime orario) {
         this.orario = orario;
     }
 
