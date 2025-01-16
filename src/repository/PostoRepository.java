@@ -83,4 +83,100 @@ public class PostoRepository {
         statement.executeQuery();
     }
 
+    public static Double isSeatAvailableAndBookAndPrice(int spettacoloId, int postoId, int utenteId) throws SQLException {
+        // Verifica quanti posti l'utente ha già prenotato per questo spettacolo
+        int currentBookings = 0;
+        String countQuery = "SELECT COUNT(*) FROM prenotazione WHERE utente_id = ? AND spettacolo_id = ?";
+        try (PreparedStatement countStatement = connection.prepareStatement(countQuery)) {
+            countStatement.setInt(1, utenteId);
+            countStatement.setInt(2, spettacoloId);
+
+            ResultSet countResultSet = countStatement.executeQuery();
+            if (countResultSet.next()) {
+                currentBookings = countResultSet.getInt(1);
+                if (currentBookings >= 4) {
+                    System.out.println("Hai già prenotato il numero massimo di 4 posti per questo spettacolo.");
+                    return null;  // L'utente ha raggiunto il limite di 4 posti
+                }
+            }
+        }
+
+        // Verifica se il posto specifico è disponibile
+        String query = "SELECT COUNT(*) FROM prenotazione p " +
+                "INNER JOIN posto po ON p.posto_id = po.id " +
+                "INNER JOIN spettacolo s ON p.spettacolo_id = s.id " +
+                "WHERE s.id = ? AND po.id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, spettacoloId);
+            statement.setInt(2, postoId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) == 0) {
+                // Il posto è disponibile, procedi con la prenotazione
+                String bookQuery = "INSERT INTO prenotazione (utente_id, spettacolo_id, posto_id) VALUES (?, ?, ?)";
+                try (PreparedStatement bookStatement = connection.prepareStatement(bookQuery)) {
+                    double prezzoBiglietto = SpettacoloRepository.getTicketPrice(spettacoloId);
+                    bookStatement.setInt(1, utenteId);
+                    bookStatement.setInt(2, spettacoloId);
+                    bookStatement.setInt(3, postoId);
+                    bookStatement.executeUpdate();
+
+                    // Calcola il nuovo totale dei biglietti prenotati
+                    return (currentBookings + 1) * prezzoBiglietto;
+                }
+            }
+        }
+        System.out.println("Il posto è già occupato, riprova la prenotazione.");
+        return null;  // Il posto è già occupato
+    }
+
+
+    public static Double AreSeatAvailableAndBookAndPrice(int spettacoloId, int postoId, int utenteId) throws SQLException {
+        int currentBookings = 0;
+        // Verifica quanti posti l'utente ha già prenotato per questo spettacolo
+        String countQuery = "SELECT COUNT(*) FROM prenotazione WHERE utente_id = ? AND spettacolo_id = ?";
+        try (PreparedStatement countStatement = connection.prepareStatement(countQuery)) {
+            countStatement.setInt(1, utenteId);
+            countStatement.setInt(2, spettacoloId);
+
+            ResultSet countResultSet = countStatement.executeQuery();
+            if (countResultSet.next()) {
+                currentBookings = countResultSet.getInt(1);
+                if (currentBookings >= 4) {
+                    System.out.println("Hai già prenotato il numero massimo di 4 posti per questo spettacolo.");
+                    return null;  // L'utente ha raggiunto il limite di 4 posti
+                }
+            }
+        }
+
+        // Verifica se il posto specifico è disponibile
+        String query = "SELECT COUNT(*) FROM prenotazione p " +
+                "INNER JOIN posto po ON p.posto_id = po.id " +
+                "INNER JOIN spettacolo s ON p.spettacolo_id = s.id " +
+                "WHERE s.id = ? AND po.id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, spettacoloId);
+            statement.setInt(2, postoId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) == 0) {
+                // Il posto è disponibile, procedi con la prenotazione
+                String bookQuery = "INSERT INTO prenotazione (utente_id, spettacolo_id, posto_id) VALUES (?, ?, ?)";
+                try (PreparedStatement bookStatement = connection.prepareStatement(bookQuery)) {
+                    double prezzoBiglietto = SpettacoloRepository.getTicketPrice(spettacoloId); // Supponendo che questo metodo esista
+                    bookStatement.setInt(1, utenteId);
+                    bookStatement.setInt(2, spettacoloId);
+                    bookStatement.setInt(3, postoId);
+                    bookStatement.executeUpdate();
+
+                    // Calcola il nuovo totale dei biglietti prenotati
+                    return (currentBookings + 1) * prezzoBiglietto;  // Ritorna il prezzo totale aggiornato
+                }
+            }
+        }
+        System.out.println("Il posto è già occupato, riprova la prenotazione.");
+        return null;  // Il posto è già occupato
+    }
+
 }
+
