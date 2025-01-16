@@ -18,15 +18,15 @@ public class UtenteService {
         UtenteRepository.insertUtenti(request);
     }
 
-    public Utente getUtenteById(int id) throws SQLException {
+    public static Utente getUtenteById(int id) throws SQLException {
         return UtenteRepository.getById(id);
     }
 
-    public void updateUtente(int id, UtenteRequest request) throws SQLException {
+    public static void updateUtente(int id, UtenteRequest request) throws SQLException {
         UtenteRepository.updateUtenti(id, request);
     }
 
-    public void deleteUtenteById(int id) throws SQLException {
+    public static void deleteUtenteById(int id) throws SQLException {
         UtenteRepository.deleteById(id);
     }
 }

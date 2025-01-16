@@ -89,7 +89,7 @@ public class UtenteRepository {
         String query = "DELETE FROM utente WHERE id =?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
-        statement.executeQuery();
+        statement.executeUpdate();
     }
 
 

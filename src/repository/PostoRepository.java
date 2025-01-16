@@ -82,4 +82,5 @@ public class PostoRepository {
         statement.setInt(1, id);
         statement.executeQuery();
     }
+
 }
