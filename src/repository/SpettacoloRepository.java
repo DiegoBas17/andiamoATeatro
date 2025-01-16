@@ -70,8 +70,8 @@ public class SpettacoloRepository {
         statement.setDate(1, convertToSqlDate(request.orario()));
         statement.setDouble(2, request.prezzo());
         statement.setInt(3, request.durataInMinuti());
-        statement.setString(3, request.genere());
-        statement.setInt(3, request.sala_id());
+        statement.setString(4, request.genere());
+        statement.setInt(5, request.sala_id());
         statement.executeUpdate();
     }
 

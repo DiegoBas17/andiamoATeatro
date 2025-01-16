@@ -59,8 +59,7 @@ public class SalaRepository {
 
     public static void insertSala(SalaRequest request) throws SQLException {
         String query = "INSERT INTO sala (nome,numero_posti,sede_id)" +
-                "VALUES (?,?,?,?,?)";
-
+                "VALUES (?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.nome());
         statement.setInt(2, request.numeroPosti());
