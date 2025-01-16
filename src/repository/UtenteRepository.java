@@ -5,6 +5,7 @@ import DTO.UtenteRequest;
 import entities.Utente;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,5 +92,53 @@ public class UtenteRepository {
         statement.executeQuery();
     }
 
+
+
+    public static boolean aquistareTicket(int utenteId, int spettacoloId) throws SQLException
+    {
+        String query = "SELECT COUNT(*) FROM prenotazione WHERE utente_id = ? AND spettacolo_id = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, utenteId);
+        statement.setInt(2, spettacoloId);
+
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            int ticketsCount = resultSet.getInt(1);
+            return ticketsCount < 4;  // Permetti l'acquisto solo se il numero di biglietti è inferiore a 4
+        }
+
+        return false;  // Se l'utente ha già acquistato 4 biglietti o più
+    }
+    // Verifica se un utente ha già acquistato un biglietto per lo stesso spettacolo nello stesso giorno
+    public static boolean Bigliettoaquistato(int utenteId, int spettacoloId) throws SQLException {
+        String query = "SELECT orario FROM spettacolo WHERE id = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, spettacoloId);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            Date spettacoloDate = resultSet.getDate("orario");
+            LocalDate spettacoloLocalDateTime = spettacoloDate.toLocalDate();
+
+            // Verifica se l'utente ha prenotato un biglietto per lo stesso giorno
+            String checkQuery = "SELECT COUNT(*) FROM prenotazione p INNER JOIN spettacolo s ON p.spettacolo_id = s.id " +
+                    "WHERE p.utente_id = ? AND s.orario >= ? AND s.orario < ?";
+
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setInt(1, utenteId);
+            checkStatement.setDate(2, Date.valueOf(spettacoloLocalDateTime));
+            checkStatement.setDate(3, Date.valueOf(spettacoloLocalDateTime.plusDays(1)));
+
+            ResultSet checkResult = checkStatement.executeQuery();
+            if (checkResult.next()) {
+                int ticketsToday = checkResult.getInt(1);
+                return ticketsToday == 0;  // Permetti l'acquisto solo se non c'è stato alcun biglietto per oggi
+            }
+        }
+
+        return true;  // Se non ci sono conflitti nella stessa giornata
+    }
 
 }
