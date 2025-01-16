@@ -69,7 +69,7 @@ public class PrenotazioneRepository {
         statement.setInt(2, request.posto_id());
         statement.setInt(3, request.utente_id());
         statement.setTimestamp(4, Timestamp.valueOf(request.orarioAcquisto()));
-
+        statement.executeUpdate();
     }
 
 

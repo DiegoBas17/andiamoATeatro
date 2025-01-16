@@ -65,7 +65,7 @@ public class SalaRepository {
         statement.setString(1, request.nome());
         statement.setInt(2, request.numeroPosti());
         statement.setInt(3, request.sede_id());
-
+        statement.executeUpdate();
     }
 
 

@@ -70,6 +70,7 @@ public class UtenteRepository {
         statement.setString(3, request.indirizzo());
         statement.setString(4, request.email());
         statement.setString(5, request.cellulare());
+        statement.executeUpdate();
     }
 
 
