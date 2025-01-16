@@ -1,8 +1,8 @@
 package repository;
 
 
+import DBConfig.DBConnection;
 import DTO.SpettacoloRequest;
-import configuration.DBConnection;
 import entities.Spettacolo;
 
 import java.sql.*;
@@ -15,7 +15,11 @@ public class SpettacoloRepository {
     private static final Connection connection;
 
     static {
-        connection = DBConnection.getConnection();
+        try {
+            connection = DBConnection.getConnection();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Spettacolo mapResultSetToSpettacolo(ResultSet resultSet) {
@@ -24,7 +28,7 @@ public class SpettacoloRepository {
             spettacolo.setId(resultSet.getInt("id"));
             spettacolo.setOrario(LocalDateTime.from((TemporalAccessor) resultSet.getDate("orario")));
             spettacolo.setPrezzo(resultSet.getDouble("prezzo"));
-            spettacolo.setDurataInMinuti(resultSet.getInt("durataInMinuti"));
+            spettacolo.setDurataInMinuti(resultSet.getInt("durata_in_minuti"));
             spettacolo.setGenere(resultSet.getString("genere"));
             spettacolo.setSala_id(resultSet.getInt("sala_id"));
             return spettacolo;

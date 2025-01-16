@@ -15,9 +15,7 @@ public class SedeRepository {
     static {
         try {
             connection = DBConnection.getConnection();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -28,8 +26,8 @@ public class SedeRepository {
         sede.setId(resultSet.getInt("id"));
         sede.setComune(resultSet.getString("comune"));
         sede.setIndirizzo(resultSet.getString("indirizzo"));
-        sede.setNomeSpettacolo(resultSet.getString("nomeSpettacolo"));
-        sede.setCoperto(resultSet.getBoolean("isCoperto"));
+        sede.setNomeSpettacolo(resultSet.getString("nome_spettacolo"));
+        sede.setCoperto(resultSet.getBoolean("is_coperto"));
         return sede;
     }
 
@@ -58,7 +56,7 @@ public class SedeRepository {
         return sedi;
     }
 
-    private static void insertSede(SedeRequest request) throws SQLException {
+    public static void insertSede(SedeRequest request) throws SQLException {
         String query = "INSERT INTO SEDE (id,comune,indirizzo,nomeSpettacolo,isCoperto)" +
                 "VALUES (?,?,?,?,?)";
 

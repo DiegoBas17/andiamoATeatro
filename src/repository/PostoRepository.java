@@ -14,9 +14,7 @@ public class PostoRepository {
     static {
         try {
             connection = DBConnection.getConnection();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -26,7 +24,7 @@ public class PostoRepository {
         try {
             posto.setId(resultSet.getInt("id"));
             posto.setFila(resultSet.getString("fila"));
-            posto.setNumeroPosto(resultSet.getString("numeroPosto"));
+            posto.setNumeroPosto(resultSet.getString("numero_posto"));
             posto.setSala_id(resultSet.getInt("sala_id"));
             return posto;
         } catch (SQLException e) {
