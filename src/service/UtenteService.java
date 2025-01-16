@@ -10,16 +10,16 @@ import java.util.List;
 public class UtenteService {
 
 
-    public Utente getUtenteById(int id) throws SQLException {
-        return UtenteRepository.getById(id);
-    }
-
-    public List<Utente> getAllUtenti() throws SQLException {
+    public static List<Utente> getAllUtenti() throws SQLException {
         return UtenteRepository.getAllUtenti();
     }
 
-    public void insertUtente(UtenteRequest request) throws SQLException {
+    public static void insertUtente(UtenteRequest request) throws SQLException {
         UtenteRepository.insertUtenti(request);
+    }
+
+    public Utente getUtenteById(int id) throws SQLException {
+        return UtenteRepository.getById(id);
     }
 
     public void updateUtente(int id, UtenteRequest request) throws SQLException {

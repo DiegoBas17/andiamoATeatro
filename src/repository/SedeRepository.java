@@ -66,6 +66,7 @@ public class SedeRepository {
         statement.setString(3, request.indirizzo());
         statement.setString(4, request.nomeSpettacolo());
         statement.setBoolean(5, request.isCoperto());
+        statement.executeUpdate();
     }
 
     public static void updateSede(int id, SedeRequest request) throws SQLException {

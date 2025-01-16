@@ -64,7 +64,7 @@ public class PostoRepository {
         statement.setString(1, request.fila());
         statement.setString(2, request.numeroPosto());
         statement.setInt(3, request.sala_id());
-
+        statement.executeUpdate();
     }
 
     public static void updatePosto(int id, PostoRequest request) throws SQLException {

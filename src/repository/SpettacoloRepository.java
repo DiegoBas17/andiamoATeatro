@@ -3,7 +3,6 @@ package repository;
 
 import DBConfig.DBConnection;
 import DTO.SpettacoloRequest;
-
 import entities.Spettacolo;
 
 import java.sql.*;
@@ -73,7 +72,7 @@ public class SpettacoloRepository {
         statement.setInt(3, request.durataInMinuti());
         statement.setString(3, request.genere());
         statement.setInt(3, request.sala_id());
-
+        statement.executeUpdate();
     }
 
     public static void updateSpettacolo(int id, SpettacoloRequest request) throws SQLException {
