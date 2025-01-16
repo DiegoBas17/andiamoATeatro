@@ -10,23 +10,23 @@ import java.util.List;
 public class SalaService {
 
 
+    public static List<Sala> getAllSale() throws SQLException {
+        return SalaRepository.getAllSala();
+    }
+
+    public static void insertSala(SalaRequest request) throws SQLException {
+        SalaRepository.insertSala(request);
+    }
+
     public Sala getSalaById(int id) throws SQLException {
         return SalaRepository.getById(id);
     }
 
-    public List<Sala> getAllSale() throws SQLException {
-        return SalaRepository.getAllSala();
-    }
-
-    public void insertSala(SalaRequest request) throws SQLException {
-        SalaRepository.insertSala(request);
-    }
-
-    public void updateSala(int id, SalaRequest request) throws SQLException {
+    public static void updateSala(int id, SalaRequest request) throws SQLException {
         SalaRepository.updateSala(id, request);
     }
 
-    public void deleteSalaById(int id) throws SQLException {
+    public static void deleteSalaById(int id) throws SQLException {
         SalaRepository.deleteById(id);
     }
 

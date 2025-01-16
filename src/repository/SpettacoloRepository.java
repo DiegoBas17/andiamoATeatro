@@ -6,6 +6,7 @@ import DTO.SpettacoloRequest;
 import entities.Spettacolo;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -69,13 +70,13 @@ public class SpettacoloRepository {
         statement.setDate(1, convertToSqlDate(request.orario()));
         statement.setDouble(2, request.prezzo());
         statement.setInt(3, request.durataInMinuti());
-        statement.setString(3, request.genere());
-        statement.setInt(3, request.sala_id());
-
+        statement.setString(4, request.genere());
+        statement.setInt(5, request.sala_id());
+        statement.executeUpdate();
     }
 
     public static void updateSpettacolo(int id, SpettacoloRequest request) throws SQLException {
-        String query = "UPDATE spettacolo SET orario = ?, prezzo = ?, durataInMinuti =?, genere =?, sala_id =? WHERE id = ?";
+        String query = "UPDATE spettacolo SET orario = ?, prezzo = ?, durata_in_minuti =?, genere =?, sala_id =? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setDate(1, convertToSqlDate(request.orario()));
@@ -97,5 +98,63 @@ public class SpettacoloRepository {
         return java.sql.Date.valueOf(dateTime.toLocalDate());
     }
 
+    public static boolean aquistareTicket(int utenteId, int spettacoloId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM prenotazione WHERE utente_id = ? AND spettacolo_id = ?";
 
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, utenteId);
+        statement.setInt(2, spettacoloId);
+
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            int ticketsCount = resultSet.getInt(1);
+            return ticketsCount < 4;  // Permetti l'acquisto solo se il numero di biglietti è inferiore a 4
+        }
+
+        return false;  // Se l'utente ha già acquistato 4 biglietti o più
+    } // n
+
+    // Verifica se un utente ha già acquistato un biglietto per lo stesso spettacolo nello stesso giorno
+    public static boolean Bigliettoaquistato(int utenteId, int spettacoloId) throws SQLException {
+        String query = "SELECT orario FROM spettacolo WHERE id = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, spettacoloId);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            Date spettacoloDate = resultSet.getDate("orario");
+            LocalDate spettacoloLocalDateTime = spettacoloDate.toLocalDate();
+
+            // Verifica se l'utente ha prenotato un biglietto per lo stesso giorno
+            String checkQuery = "SELECT COUNT(*) FROM prenotazione p INNER JOIN spettacolo s ON p.spettacolo_id = s.id " +
+                    "WHERE p.utente_id = ? AND s.orario >= ? AND s.orario < ?";
+
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setInt(1, utenteId);
+            checkStatement.setDate(2, Date.valueOf(spettacoloLocalDateTime));
+            checkStatement.setDate(3, Date.valueOf(spettacoloLocalDateTime.plusDays(1)));
+
+            ResultSet checkResult = checkStatement.executeQuery();
+            if (checkResult.next()) {
+                int ticketsToday = checkResult.getInt(1);
+                return ticketsToday == 0;  // Permetti l'acquisto solo se non c'è stato alcun biglietto per oggi
+            }
+        }
+
+        return true;  // Se non ci sono conflitti nella stessa giornata
+    }
+
+    // Metodo per prenotare un biglietto
+    public static void prenotazioneTicket(int utenteId, int spettacoloId) throws SQLException {
+        if (aquistareTicket(utenteId, spettacoloId) && Bigliettoaquistato(utenteId, spettacoloId)) {
+            String insertQuery = "INSERT INTO prenotazione (utente_id, spettacolo_id) VALUES (?, ?)";
+
+            PreparedStatement statement = connection.prepareStatement(insertQuery);
+            statement.setInt(1, utenteId);
+            statement.setInt(2, spettacoloId);
+            statement.executeUpdate();
+
+        }
+    }
 }

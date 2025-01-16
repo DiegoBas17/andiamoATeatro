@@ -69,6 +69,7 @@ public class UtenteRepository {
         statement.setString(3, request.indirizzo());
         statement.setString(4, request.email());
         statement.setString(5, request.cellulare());
+        statement.executeUpdate();
     }
 
 
@@ -88,7 +89,7 @@ public class UtenteRepository {
         String query = "DELETE FROM utente WHERE id =?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
-        statement.executeQuery();
+        statement.executeUpdate();
     }
 
 

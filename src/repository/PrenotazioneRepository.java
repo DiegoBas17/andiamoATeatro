@@ -30,7 +30,6 @@ public class PrenotazioneRepository {
             int utente_id = resultSet.getInt("utente_id");
             int posto_id = resultSet.getInt("posto_id");
 
-            // Crea e restituisci un oggetto Prenotazione
             return new Prenotazione(id, orarioAcquisto, spettacolo_id, utente_id, posto_id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -70,7 +69,7 @@ public class PrenotazioneRepository {
         statement.setInt(2, request.posto_id());
         statement.setInt(3, request.utente_id());
         statement.setTimestamp(4, Timestamp.valueOf(request.orarioAcquisto()));
-
+        statement.executeUpdate();
     }
 
 
@@ -79,5 +78,19 @@ public class PrenotazioneRepository {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         statement.executeQuery();
+    }
+
+    public static int countBySpettacoloUtente(int utenteId, int spettacoloId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM prenotazione WHERE utente_id =? AND spettacolo_id=?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, utenteId);
+        statement.setInt(2, spettacoloId);
+
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        return 0;
     }
 }

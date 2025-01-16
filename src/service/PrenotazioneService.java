@@ -2,6 +2,7 @@ package service;
 
 import DTO.PrenotazioneRequest;
 import entities.Prenotazione;
+import repository.PostoRepository;
 import repository.PrenotazioneRepository;
 
 import java.sql.SQLException;
@@ -23,6 +24,10 @@ public class PrenotazioneService {
 
     public void deletePrenotazioneById(int id) throws SQLException {
         PrenotazioneRepository.deleteById(id);
+    }
+
+    public void controlloPostoLibero(int id) throws SQLException {
+        PostoRepository.postoOccupato(id);
     }
 
 }

@@ -3,14 +3,12 @@ package DTO;
 import validator.Validator;
 
 public record SedeRequest(
-        int id,
         String indirizzo,
         String nomeSpettacolo,
         String comune,
         Boolean isCoperto
 ) {
-    public SedeRequest(int id, String indirizzo, String nomeSpettacolo, String comune, Boolean isCoperto) {
-        this.id = id;
+    public SedeRequest(String indirizzo, String nomeSpettacolo, String comune, Boolean isCoperto) {
         this.indirizzo = Validator.requireNotBlank(indirizzo);
         this.nomeSpettacolo = Validator.requireNotBlank(nomeSpettacolo);
         this.comune = Validator.requireNotBlank(comune);
