@@ -79,4 +79,18 @@ public class PrenotazioneRepository {
         statement.setInt(1, id);
         statement.executeQuery();
     }
+
+    public static int countBySpettacoloUtente(int utenteId, int spettacoloId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM prenotazione WHERE utente_id =? AND spettacolo_id=?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, utenteId);
+        statement.setInt(2, spettacoloId);
+
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        return 0;
+    }
 }
