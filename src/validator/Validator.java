@@ -1,7 +1,7 @@
 package validator;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 public class Validator {
@@ -80,8 +80,8 @@ public class Validator {
         if (orario == null || from == null) {
             throw new NullPointerException("L'input è null");
         }
-        Date temporalOrario = Date.from(Instant.from(orario));
-        Date temporalOrarioFrom = Date.from(Instant.from(from));
+        Date temporalOrario = Date.from(orario.atOffset(ZoneOffset.UTC).toInstant());
+        Date temporalOrarioFrom = Date.from(from.atOffset(ZoneOffset.UTC).toInstant());
         if (temporalOrario.after(temporalOrarioFrom)) {
             throw new IllegalArgumentException("Strappa sto calendario va");
         }

@@ -22,7 +22,6 @@ public class SedeRepository {
 
     public static Sede mapResultSetToSede(ResultSet resultSet) throws SQLException {
         Sede sede = new Sede();
-
         sede.setId(resultSet.getInt("id"));
         sede.setComune(resultSet.getString("comune"));
         sede.setIndirizzo(resultSet.getString("indirizzo"));
@@ -57,15 +56,13 @@ public class SedeRepository {
     }
 
     public static void insertSede(SedeRequest request) throws SQLException {
-        String query = "INSERT INTO SEDE (id,comune,indirizzo,nome_spettacolo,is_coperto)" +
-                "VALUES (?,?,?,?,?)";
-
+        String query = "INSERT INTO SEDE (comune,indirizzo,nome_spettacolo,is_coperto)" +
+                "VALUES (?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, request.id());
-        statement.setString(2, request.comune());
-        statement.setString(3, request.indirizzo());
-        statement.setString(4, request.nomeSpettacolo());
-        statement.setBoolean(5, request.isCoperto());
+        statement.setString(1, request.comune());
+        statement.setString(2, request.indirizzo());
+        statement.setString(3, request.nomeSpettacolo());
+        statement.setBoolean(4, request.isCoperto());
         statement.executeUpdate();
     }
 
@@ -77,7 +74,7 @@ public class SedeRepository {
         statement.setString(2, request.indirizzo());
         statement.setString(3, request.nomeSpettacolo());
         statement.setBoolean(4, request.isCoperto());
-        statement.setInt(5, request.id());
+        statement.setInt(5, id);
         statement.executeQuery();
     }
 

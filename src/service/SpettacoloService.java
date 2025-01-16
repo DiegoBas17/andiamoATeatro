@@ -8,10 +8,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class SpettacoloService {
-    public static Spettacolo getSpettacoloById(int id) throws SQLException {
-        return SpettacoloRepository.getById(id);
-    }
-
     public static List<Spettacolo> getAllSpettacolo() throws SQLException {
         return SpettacoloRepository.getAllSpettacolo();
     }
@@ -20,7 +16,11 @@ public class SpettacoloService {
         SpettacoloRepository.insertSpettacolo(request);
     }
 
-    public static void updateSpettacolo(int id, SpettacoloRequest request) throws SQLException {
+    public Spettacolo getSpettacoloById(int id) throws SQLException {
+        return SpettacoloRepository.getById(id);
+    }
+
+    public void updateSpettacolo(int id, SpettacoloRequest request) throws SQLException {
         SpettacoloRepository.updateSpettacolo(id, request);
     }
 
