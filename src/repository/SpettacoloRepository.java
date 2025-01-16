@@ -16,13 +16,10 @@ import java.util.List;
 public class SpettacoloRepository {
     private static final Connection connection;
 
-    static
-    {
+    static {
         try {
             connection = DBConnection.getConnection();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -33,7 +30,7 @@ public class SpettacoloRepository {
             spettacolo.setId(resultSet.getInt("id"));
             spettacolo.setOrario(LocalDateTime.from((TemporalAccessor) resultSet.getDate("orario")));
             spettacolo.setPrezzo(resultSet.getDouble("prezzo"));
-            spettacolo.setDurataInMinuti(resultSet.getInt("durataInMinuti"));
+            spettacolo.setDurataInMinuti(resultSet.getInt("durata_in_minuti"));
             spettacolo.setGenere(resultSet.getString("genere"));
             spettacolo.setSala_id(resultSet.getInt("sala_id"));
             return spettacolo;
@@ -159,10 +156,6 @@ public class SpettacoloRepository {
             statement.setInt(2, spettacoloId);
             statement.executeUpdate();
 
-        } else {
-            throw new IllegalArgumentException("Non puoi acquistare il biglietto: limite raggiunto o già prenotato oggi.");
         }
     }
 }
-
-
