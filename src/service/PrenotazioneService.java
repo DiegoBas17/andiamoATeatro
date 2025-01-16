@@ -27,7 +27,7 @@ public class PrenotazioneService {
     }
 
     public void controlloPostoLibero(int id) throws SQLException {
-        PostoRepository.postoOccupato(id);
+        PostoRepository.isSeatAvailableAndBookAndPrice(0,0,0);
     }
 
 }
