@@ -30,7 +30,6 @@ public class PrenotazioneRepository {
             int utente_id = resultSet.getInt("utente_id");
             int posto_id = resultSet.getInt("posto_id");
 
-            // Crea e restituisci un oggetto Prenotazione
             return new Prenotazione(id, orarioAcquisto, spettacolo_id, utente_id, posto_id);
         } catch (SQLException e) {
             throw new RuntimeException(e);

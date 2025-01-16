@@ -57,7 +57,7 @@ public class SedeRepository {
     }
 
     public static void insertSede(SedeRequest request) throws SQLException {
-        String query = "INSERT INTO SEDE (id,comune,indirizzo,nomeSpettacolo,isCoperto)" +
+        String query = "INSERT INTO SEDE (id,comune,indirizzo,nome_spettacolo,is_coperto)" +
                 "VALUES (?,?,?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -69,7 +69,7 @@ public class SedeRepository {
     }
 
     public static void updateSede(int id, SedeRequest request) throws SQLException {
-        String query = "UPDATE sede SET  comune = ?, indirizzo = ?, nomeSpettacolo = ?, isCoperto = ? WHERE id = ?";
+        String query = "UPDATE sede SET  comune = ?, indirizzo = ?, nome_spettacolo = ?, is_coperto = ? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.comune());

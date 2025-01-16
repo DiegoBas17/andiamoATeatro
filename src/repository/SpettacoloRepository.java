@@ -62,7 +62,7 @@ public class SpettacoloRepository {
     }
 
     public static void insertSpettacolo(SpettacoloRequest request) throws SQLException {
-        String query = "INSERT INTO spettacolo (orario,prezzo,durataInMinuti,genere,sala_id)" +
+        String query = "INSERT INTO spettacolo (orario,prezzo,durata_in_minuti,genere,sala_id)" +
                 "VALUES (?,?,?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(query);
@@ -75,7 +75,7 @@ public class SpettacoloRepository {
     }
 
     public static void updateSpettacolo(int id, SpettacoloRequest request) throws SQLException {
-        String query = "UPDATE spettacolo SET orario = ?, prezzo = ?, durataInMinuti =?, genere =?, sala_id =? WHERE id = ?";
+        String query = "UPDATE spettacolo SET orario = ?, prezzo = ?, durata_in_minuti =?, genere =?, sala_id =? WHERE id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setDate(1, convertToSqlDate(request.orario()));
