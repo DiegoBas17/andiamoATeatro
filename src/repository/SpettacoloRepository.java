@@ -98,4 +98,18 @@ public class SpettacoloRepository {
         return java.sql.Date.valueOf(dateTime.toLocalDate());
     }
 
+    public static Double getTicketPrice(int id) throws SQLException {
+        String query = "SELECT prezzo FROM spettacolo WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble("prezzo");
+            } else {
+                throw new SQLException("Prezzo non trovato per lo spettacolo con ID " + id);
+            }
+        }
+    }
+
+
 }
