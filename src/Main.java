@@ -75,4 +75,8 @@ public class Main {
             }
         }
     }
+
+    private static void eliminaUtente() throws SQLException {
+        UtenteService.deleteUtenteById(5);
+    }
 }
