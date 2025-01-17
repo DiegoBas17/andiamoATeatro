@@ -105,5 +105,51 @@ public class SpettacoloRepository {
             }
         }
     }
+
+    public static List<Spettacolo> suggerisciSpettacoliProssimoMese(int utenteId) throws SQLException {
+        String ultimiSpettacoliQuery = "SELECT s.id, s.genere, p.orario_acquisto " +
+                "FROM prenotazione p " +
+                "INNER JOIN spettacolo s ON p.spettacolo_id = s.id " +
+                "WHERE p.utente_id = ? " +
+                "ORDER BY p.orario_acquisto DESC " +
+                "LIMIT 3";
+        List<String> generi = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(ultimiSpettacoliQuery)) {
+            stmt.setInt(1, utenteId);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                System.out.println("Nessun spettacolo prenotato da questo utente.");
+                return new ArrayList<>();
+            }
+            do {
+                generi.add(rs.getString("genere"));
+            } while (rs.next());
+        }
+        if (generi.isEmpty()) {
+            System.out.println("Nessun genere trovato per l'utente.");
+            return new ArrayList<>();
+        }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstDayOfNextMonth = now.plusMonths(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime lastDayOfNextMonth = firstDayOfNextMonth.plusMonths(1).minusDays(1).withHour(23).withMinute(59).withSecond(59);
+        String spettacoliProssimoMeseQuery = "SELECT * FROM spettacolo WHERE genere IN (?) AND orario BETWEEN ? AND ? ORDER BY orario ASC";
+        List<Spettacolo> spettacoliSuggeriti = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(spettacoliProssimoMeseQuery)) {
+            stmt.setString(1, String.join(",", generi));
+            stmt.setTimestamp(2, Timestamp.valueOf(firstDayOfNextMonth));
+            stmt.setTimestamp(3, Timestamp.valueOf(lastDayOfNextMonth));
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                System.out.println("Nessun spettacolo trovato per i generi selezionati nel mese prossimo.");
+                return new ArrayList<>();
+            }
+            do {
+                spettacoliSuggeriti.add(mapResultSetToSpettacolo(rs));
+            } while (rs.next());
+        } catch (SQLException e) {
+            System.err.println("Errore durante la ricerca degli spettacoli: " + e.getMessage());
+            throw new SQLException("Errore durante la ricerca degli spettacoli.", e);
+        }
+        return spettacoliSuggeriti;
+    }
 }
-//

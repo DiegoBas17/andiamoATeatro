@@ -2,6 +2,7 @@ import DTO.*;
 import entities.*;
 import repository.PostoRepository;
 import repository.PrenotazioneRepository;
+import repository.SpettacoloRepository;
 import service.*;
 
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class Main {
         System.out.println(PrenotazioneRepository.searchPrenotazioni(1, 1, LocalDateTime.of(2025, 1, 17, 10, 34, 4, 0)));
         /*esercizio 4*/
         System.out.println("*************************** ESERCIZIO 4 **********************************");
-
+        System.out.println(SpettacoloRepository.suggerisciSpettacoliProssimoMese(1));
     }
 
     private static void inizialiazzazioneDB() {
@@ -74,9 +75,14 @@ public class Main {
             System.out.println("Inizializzo uno Spettacolo");
             try {
                 Sala sala = SalaService.getAllSale().getFirst();
-                SpettacoloRequest spettacolo = new SpettacoloRequest(LocalDateTime.now(),
-                        20.50, 120, "Comico", sala.getId());
+                SpettacoloRequest spettacolo = new SpettacoloRequest(LocalDateTime.now(), 20.50, 120, "Comico", sala.getId());
+                SpettacoloRequest spettacolo2 = new SpettacoloRequest(LocalDateTime.now().plusDays(10), 22.30, 90, "Drammatico", sala.getId());
+                SpettacoloRequest spettacolo3 = new SpettacoloRequest(LocalDateTime.now().plusDays(15), 19.00, 110, "Musicale", sala.getId());
+                SpettacoloRequest spettacolo4 = new SpettacoloRequest(LocalDateTime.now().plusDays(20), 18.00, 130, "Azione", sala.getId());
                 SpettacoloService.insertSpettacolo(spettacolo);
+                SpettacoloService.insertSpettacolo(spettacolo2);
+                SpettacoloService.insertSpettacolo(spettacolo3);
+                SpettacoloService.insertSpettacolo(spettacolo4);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

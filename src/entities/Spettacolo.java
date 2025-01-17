@@ -69,4 +69,16 @@ public class Spettacolo {
     public void setSala_id(int sala_id) {
         this.sala_id = sala_id;
     }
+
+    @Override
+    public String toString() {
+        return "Spettacolo{" +
+                "id=" + id +
+                ", orario=" + orario +
+                ", prezzo=" + prezzo +
+                ", durataInMinuti=" + durataInMinuti +
+                ", genere='" + genere + '\'' +
+                ", sala_id=" + sala_id +
+                '}';
+    }
 }
