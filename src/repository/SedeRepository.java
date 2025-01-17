@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SedeRepository {
-
     private static final Connection connection;
 
     static {
@@ -33,7 +32,6 @@ public class SedeRepository {
 
     public static Sede getById(int id) throws SQLException {
         String query = "SELECT * FROM sede WHERE id = ?";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
@@ -45,7 +43,6 @@ public class SedeRepository {
 
     public static List<Sede> findAll() throws SQLException {
         String query = "SELECT * FROM sede";
-
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         List<Sede> sedi = new ArrayList<>();
@@ -68,7 +65,6 @@ public class SedeRepository {
 
     public static void updateSede(int id, SedeRequest request) throws SQLException {
         String query = "UPDATE sede SET  comune = ?, indirizzo = ?, nome_spettacolo = ?, is_coperto = ? WHERE id = ?";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.comune());
         statement.setString(2, request.indirizzo());

@@ -47,7 +47,6 @@ public class SpettacoloRepository {
         } else {
             throw new IllegalArgumentException("Spettacolo con id " + id + " non presente.");
         }
-
     }
 
     public static List<Spettacolo> getAllSpettacolo() throws SQLException {
@@ -64,7 +63,6 @@ public class SpettacoloRepository {
     public static void insertSpettacolo(SpettacoloRequest request) throws SQLException {
         String query = "INSERT INTO spettacolo (orario,prezzo,durata_in_minuti,genere,sala_id)" +
                 "VALUES (?,?,?,?,?)";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setDate(1, convertToSqlDate(request.orario()));
         statement.setDouble(2, request.prezzo());
@@ -76,7 +74,6 @@ public class SpettacoloRepository {
 
     public static void updateSpettacolo(int id, SpettacoloRequest request) throws SQLException {
         String query = "UPDATE spettacolo SET orario = ?, prezzo = ?, durata_in_minuti =?, genere =?, sala_id =? WHERE id = ?";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setDate(1, convertToSqlDate(request.orario()));
         statement.setDouble(2, request.prezzo());

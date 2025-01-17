@@ -42,7 +42,6 @@ public class PostoRepository {
         } else {
             throw new IllegalArgumentException("Posto con id " + id + " non presente.");
         }
-
     }
 
     public static List<Posto> getAllPosto() throws SQLException {
@@ -59,7 +58,6 @@ public class PostoRepository {
     public static void insertPosto(PostoRequest request) throws SQLException {
         String query = "INSERT INTO posto (fila,numero_posto,sala_id)" +
                 "VALUES (?,?,?,?,?)";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.fila());
         statement.setString(2, request.numeroPosto());
@@ -69,7 +67,6 @@ public class PostoRepository {
 
     public static void updatePosto(int id, PostoRequest request) throws SQLException {
         String query = "UPDATE posto SET fila = ?, numero_posto = ? WHERE id = ?";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.fila());
         statement.setString(2, request.numeroPosto());
@@ -89,7 +86,6 @@ public class PostoRepository {
         try (PreparedStatement countStatement = connection.prepareStatement(countQuery)) {
             countStatement.setInt(1, utenteId);
             countStatement.setInt(2, spettacoloId);
-
             ResultSet countResultSet = countStatement.executeQuery();
             if (countResultSet.next()) {
                 currentBookings = countResultSet.getInt(1);
@@ -106,7 +102,6 @@ public class PostoRepository {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, spettacoloId);
             statement.setInt(2, postoId);
-
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) == 0) {
                 String bookQuery = "INSERT INTO prenotazione (utente_id, spettacolo_id, posto_id) VALUES (?, ?, ?)";
@@ -151,7 +146,7 @@ public class PostoRepository {
             if (resultSet.next() && resultSet.getInt(1) == 0) {
                 String bookQuery = "INSERT INTO prenotazione (utente_id, spettacolo_id, posto_id) VALUES (?, ?, ?)";
                 try (PreparedStatement bookStatement = connection.prepareStatement(bookQuery)) {
-                    double prezzoBiglietto = SpettacoloRepository.getTicketPrice(spettacoloId); // Supponendo che questo metodo esista
+                    double prezzoBiglietto = SpettacoloRepository.getTicketPrice(spettacoloId);
                     bookStatement.setInt(1, utenteId);
                     bookStatement.setInt(2, spettacoloId);
                     bookStatement.setInt(3, postoId);
@@ -163,6 +158,5 @@ public class PostoRepository {
         System.out.println("Il posto è già occupato, riprova la prenotazione.");
         return null;
     }
-
 }
 

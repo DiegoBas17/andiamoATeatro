@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalaRepository {
-
     private static final Connection connection;
 
     static {
@@ -31,12 +30,10 @@ public class SalaRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static Sala getById(int id) throws SQLException {
         String query = "SELECT * FROM sala WHERE id = ?";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
@@ -70,7 +67,6 @@ public class SalaRepository {
 
     public static void updateSala(int id, SalaRequest request) throws SQLException {
         String query = "UPDATE sala SET nome = ?, numero_posti = ?, sede_id = ? WHERE id = ?";
-
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.nome());
         statement.setInt(2, request.numeroPosti());
