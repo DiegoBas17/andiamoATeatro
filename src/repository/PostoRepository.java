@@ -96,7 +96,7 @@ public class PostoRepository {
                 currentBookings = countResultSet.getInt(1);
                 if (currentBookings >= 4) {
                     System.out.println("Hai già prenotato il numero massimo di 4 posti per questo spettacolo.");
-                    return null;  // L'utente ha raggiunto il limite di 4 posti
+                    return null;
                 }
             }
         }
@@ -127,7 +127,7 @@ public class PostoRepository {
             }
         }
         System.out.println("Il posto è già occupato, riprova la prenotazione.");
-        return null;  // Il posto è già occupato
+        return null;
     }
 
 
@@ -144,7 +144,7 @@ public class PostoRepository {
                 currentBookings = countResultSet.getInt(1);
                 if (currentBookings >= 4) {
                     System.out.println("Hai già prenotato il numero massimo di 4 posti per questo spettacolo.");
-                    return null;  // L'utente ha raggiunto il limite di 4 posti
+                    return null;
                 }
             }
         }
@@ -170,12 +170,12 @@ public class PostoRepository {
                     bookStatement.executeUpdate();
 
                     // Calcola il nuovo totale dei biglietti prenotati
-                    return (currentBookings + 1) * prezzoBiglietto;  // Ritorna il prezzo totale aggiornato
+                    return (currentBookings + 1) * prezzoBiglietto;
                 }
             }
         }
         System.out.println("Il posto è già occupato, riprova la prenotazione.");
-        return null;  // Il posto è già occupato
+        return null;
     }
 
 }
