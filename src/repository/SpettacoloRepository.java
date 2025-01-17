@@ -7,7 +7,6 @@ import entities.Spettacolo;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class SpettacoloRepository {
         Spettacolo spettacolo = new Spettacolo();
         try {
             spettacolo.setId(resultSet.getInt("id"));
-            spettacolo.setOrario(LocalDateTime.from((TemporalAccessor) resultSet.getDate("orario")));
+            spettacolo.setOrario(resultSet.getTimestamp("orario").toLocalDateTime());
             spettacolo.setPrezzo(resultSet.getDouble("prezzo"));
             spettacolo.setDurataInMinuti(resultSet.getInt("durata_in_minuti"));
             spettacolo.setGenere(resultSet.getString("genere"));

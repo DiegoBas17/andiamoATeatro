@@ -1,15 +1,8 @@
-import DTO.SalaRequest;
-import DTO.SedeRequest;
-import DTO.SpettacoloRequest;
-import DTO.UtenteRequest;
-import entities.Sala;
-import entities.Sede;
-import entities.Spettacolo;
-import entities.Utente;
-import service.SalaService;
-import service.SedeService;
-import service.SpettacoloService;
-import service.UtenteService;
+import DTO.*;
+import entities.*;
+import repository.PostoRepository;
+import repository.PrenotazioneRepository;
+import service.*;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -18,8 +11,18 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
+        /*esercizio 1*/
+        System.out.println("*************************** ESERCIZIO 1 **********************************");
         inizialiazzazioneDB();
-        eliminaUtente();
+        /*esercizio 2*/
+        System.out.println("*************************** ESERCIZIO 2 **********************************");
+        eseguiPrenotazione();
+        /*esercizio 3*/
+        System.out.println("*************************** ESERCIZIO 3 **********************************");
+        System.out.println(PrenotazioneRepository.searchPrenotazioni(1, 1, LocalDateTime.of(2025, 1, 17, 10, 34, 4, 0)));
+        /*esercizio 4*/
+        System.out.println("*************************** ESERCIZIO 4 **********************************");
+
     }
 
     private static void inizialiazzazioneDB() {
@@ -27,9 +30,13 @@ public class Main {
         List<Sede> sedi = new ArrayList<>();
         List<Sala> sale = new ArrayList<>();
         List<Spettacolo> spettacoli = new ArrayList<>();
+        List<Posto> listaPosti = new ArrayList<>();
         try {
             utenti = UtenteService.getAllUtenti();
             sedi = SedeService.findAllSedi();
+            sale = SalaService.getAllSale();
+            spettacoli = SpettacoloService.getAllSpettacolo();
+            listaPosti = PostoService.getAllPosto();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -74,9 +81,43 @@ public class Main {
                 throw new RuntimeException(e);
             }
         }
+        if (listaPosti.isEmpty()) {
+            System.out.println("Inizializzo i posti per la sala");
+            try {
+                Sala sala = SalaService.getAllSale().getFirst();
+                int numeroFile = 5;
+                int postiPerFila = 10;
+                for (int i = 1; i <= numeroFile; i++) {
+                    String fila = String.valueOf((char) ('A' + (i - 1)));
+                    for (int j = 1; j <= postiPerFila; j++) {
+                        String numeroPosto = String.valueOf(j);
+                        PostoRequest nuovoPosto = new PostoRequest(fila, numeroPosto, sala.getId());
+                        PostoService.insertPosto(nuovoPosto);
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("Posti già presenti nel DB!");
+        }
     }
 
-    private static void eliminaUtente() throws SQLException {
-        UtenteService.deleteUtenteById(5);
+    public static void eseguiPrenotazione() {
+        int utenteId = 1;
+        int spettacoloId = 1;
+        int postoId = 1;
+        try {
+            Double prezzoTotale = PostoRepository.isSeatAvailableAndBookAndPrice(spettacoloId, postoId, utenteId);
+            if (prezzoTotale != null) {
+                System.out.println("Prenotazione effettuata con successo!");
+                System.out.println("Prezzo totale da pagare: " + prezzoTotale + "€");
+            } else {
+                System.out.println("Prenotazione non riuscita. Verifica i dati inseriti.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Errore durante la prenotazione: " + e.getMessage());
+        }
     }
+
 }

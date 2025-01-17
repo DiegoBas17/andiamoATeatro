@@ -5,6 +5,7 @@ import DTO.PostoRequest;
 import entities.Posto;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class PostoRepository {
 
     public static void insertPosto(PostoRequest request) throws SQLException {
         String query = "INSERT INTO posto (fila,numero_posto,sala_id)" +
-                "VALUES (?,?,?,?,?)";
+                "VALUES (?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, request.fila());
         statement.setString(2, request.numeroPosto());
@@ -104,12 +105,13 @@ public class PostoRepository {
             statement.setInt(2, postoId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) == 0) {
-                String bookQuery = "INSERT INTO prenotazione (utente_id, spettacolo_id, posto_id) VALUES (?, ?, ?)";
+                String bookQuery = "INSERT INTO prenotazione (orario_acquisto, spettacolo_id, utente_id, posto_id) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement bookStatement = connection.prepareStatement(bookQuery)) {
                     double prezzoBiglietto = SpettacoloRepository.getTicketPrice(spettacoloId);
-                    bookStatement.setInt(1, utenteId);
+                    bookStatement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
                     bookStatement.setInt(2, spettacoloId);
-                    bookStatement.setInt(3, postoId);
+                    bookStatement.setInt(3, utenteId);
+                    bookStatement.setInt(4, postoId);
                     bookStatement.executeUpdate();
                     return (currentBookings + 1) * prezzoBiglietto;
                 }

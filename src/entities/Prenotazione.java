@@ -59,4 +59,15 @@ public class Prenotazione {
     public void setPosto_id(int posto_id) {
         this.posto_id = posto_id;
     }
+
+    @Override
+    public String toString() {
+        return "Prenotazione{" +
+                "id=" + id +
+                ", orarioAcquisto=" + orarioAcquisto +
+                ", spettacolo_id=" + spettacolo_id +
+                ", utente_id=" + utente_id +
+                ", posto_id=" + posto_id +
+                '}';
+    }
 }
