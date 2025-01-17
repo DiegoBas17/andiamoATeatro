@@ -93,4 +93,32 @@ public class PrenotazioneRepository {
         }
         return 0;
     }
+
+    public static List<Prenotazione> searchPrenotazioni(Integer utenteId, Integer spettacoloId, LocalDateTime dataAcquisto) throws SQLException {
+        String query = "SELECT * FROM prenotazione WHERE 1=1";
+        List<Object> params = new ArrayList<>();
+        if (utenteId != null) {
+            query += " AND utente_id = ?";
+            params.add(utenteId);
+        }
+        if (spettacoloId != null) {
+            query += " AND spettacolo_id = ?";
+            params.add(spettacoloId);
+        }
+        if (dataAcquisto != null) {
+            query += " AND DATE(orario_acquisto) = ?";
+            params.add(java.sql.Date.valueOf(dataAcquisto.toLocalDate()));
+        }
+        PreparedStatement statement = connection.prepareStatement(query);
+        for (int i = 0; i < params.size(); i++) {
+            statement.setObject(i + 1, params.get(i));
+        }
+        ResultSet resultSet = statement.executeQuery();
+        List<Prenotazione> prenotazioni = new ArrayList<>();
+        while (resultSet.next()) {
+            prenotazioni.add(mapResultSetToPrenotazione(resultSet));
+        }
+        return prenotazioni;
+    }
+
 }
